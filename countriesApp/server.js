@@ -28,6 +28,7 @@ function selector(min, max, redirected) {
                 form {
                 color: maroon;
                 text-align: center;
+								font-size: 20px;
                 }
                 </style>
                 ${body}
@@ -93,6 +94,7 @@ function show(req, res) {
                 p {
                 color: maroon;
                 text-align: center;
+								font-size: 25px;
                 }
                 </style></head><body>`);
 			for (const country of countryList) {
