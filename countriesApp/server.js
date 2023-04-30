@@ -26,15 +26,15 @@ function selector(min, max, redirected) {
                 }
 
                 form {
-                color: maroon;
-                text-align: center;
-								font-size: 20px;
+                	color: maroon;
+                	text-align: center;
+					font-size: 20px;
                 }
                 </style>
                 ${body}
 				<body>
-                        <form method="post" action="/show">
-						<label  for="continent">Choose your continent:</label>
+                	<form method="post" action="/show">
+					<label  for="continent">Choose your continent:</label>
 						<select id="continent" name="continent">
 							<option value="North America">North America</option>
 							<option value="South America">South America</option>
