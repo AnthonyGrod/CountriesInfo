@@ -20,4 +20,3 @@ This command will host the website on localhost on port 8080. (http://localhost:
 After starting the app you will be taken to the main page. There you will be asked to specify what continent you are interested in and how many countries'
 data you would like to explore. After submiting the form you will be shown certain amount of countries with info about official name, capital, population, currency, 
 subregion and languages. The project has been developed on Safari on macOS.
-
