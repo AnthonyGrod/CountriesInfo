@@ -11,7 +11,7 @@ const COUNTRY_URL = 'https://restcountries.com/v3.1/name/';
 const CONTINENT_URL = 'https://restcountries.com/v3.1/region/';
 
 const app = express();
-app.use('/css',express.static(__dirname +'/css'));
+app.use(express.static(__dirname +'/public'));
 
 function selector(min, max, redirected) {
 	let body = ``;
@@ -19,18 +19,7 @@ function selector(min, max, redirected) {
 		body = `<p>Chosen continent does not have that many countries available.</p>`;
 	}
 	return `<html>
-                <style>
-                body {
-                text-align: center;
-                background-color: linen;
-                }
-
-                form {
-                	color: maroon;
-                	text-align: center;
-					font-size: 20px;
-                }
-                </style>
+				<head><link rel=stylesheet href="/css/style.css"/></head>
                 ${body}
 				<body>
                 	<form method="post" action="/show">
@@ -83,20 +72,7 @@ function show(req, res) {
 					return -1;
 				return 0;
 			});
-			res.writeHead(200, { 'Content-Type': 'text/html' });
-			res.write(`\r\n<html><head>
-                <style>
-                body {
-                text-align: center;
-                background-color: linen;
-                }
-
-                p {
-                color: maroon;
-                text-align: center;
-								font-size: 25px;
-                }
-                </style></head><body>`);
+			res.write(`\r\n<html><head><link rel=stylesheet href="/css/style.css"/></head><body>`);
 			for (const country of countryList) {
 				let countryInfo = await getCountryInfo(country, COUNTRY_URL);
 				let languagesList = Object.values(countryInfo.languages);
@@ -117,7 +93,6 @@ function show(req, res) {
 			res.end();
 		} catch (error) {
 			console.error(error);
-			res.writeHead(200, { 'Content-Type': 'text/html' });
 			res.write(generateResponse('/', 2, 10, true));
 			res.end();
 		}
@@ -129,27 +104,20 @@ function generateResponse(url, min, max, redirected) {
 	if (url === '/')
 		return selector(min, max, redirected);
 	else
-		return `<html><head><p>404 Not Found</p></body></html>`;
+		return `<html><p>404 Not Found</p></body></html>`;
 }
 
+app.get('/', (req, res) => {
+	res.set('Content-Type', 'text/html')
+	res.send(generateResponse(req.url, 2, 10));
+})
 
-const server = http.createServer((req, res) => {
-	const url = req.url;
-	if (url === '/') {
-		res.writeHead(200, { 'Content-Type': 'text/html' });
-		res.write(generateResponse(url, 2, 10));
-		res.end();
-	} else if (url === '/show') {
-		show(req, res);
-	} else {
-		res.writeHead(404, { 'Content-Type': 'text/html' });
-		res.write(generateResponse(url));
-		res.end();
-	}
-});
+app.post('/show', (req, res) => {
+	res.set('Content-Type', 'text/html')
+	show(req, res);
+})
 
-
-server.listen(PORT, () => {
+app.listen(PORT, () => {
 	console.log(`Listening on localhost:${PORT}`);
 });
 
