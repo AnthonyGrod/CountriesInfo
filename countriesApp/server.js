@@ -1,7 +1,5 @@
-const http = require('http');
 const qs = require('querystring');
 const express = require('express');
-const path = require('path');
 
 const { getCountryList, getCountryInfo } = require("./apiHelper.js");
 
